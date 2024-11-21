@@ -5,7 +5,7 @@ export const useAirDropTransfer = () => {
     const [error, setError] = useState<string | null>(null);
     const [success, setSuccess] = useState<boolean | null>(null);
 
-    const transferToken = async (data: { address: string }) => {
+    const transferToken = async (data: { address: string, EVMaddress: `0x${string}` }) => {
         setLoading(true);
         setError(null);
         setSuccess(null);
@@ -53,7 +53,7 @@ export const useFetchMetamaskAddress = () => {
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
 
-    const fetchMetamaskAddressExist = async (metamaskAddress: string): Promise<boolean> => {
+    const fetchMetamaskAddressExist = async (metamaskAddress: string): Promise<{ success: boolean; isClaimed: boolean; }> => {
         setLoading(true);
         setError(null);
         try {
@@ -61,10 +61,12 @@ export const useFetchMetamaskAddress = () => {
             if (!response.ok) throw new Error('Network response was not ok');
             const data = await response.json();
             console.log("Response Data >> ", data);
-            return data?.success;
+            const successVale = data.success;
+            const isClaimed = data.data.isClaimed;
+            return { success: successVale, isClaimed: isClaimed };
         } catch (err) {
             setError("Error fetching metamask address");
-            return false;
+            return { success: false, isClaimed: false };
         } finally {
             setLoading(false);
         }

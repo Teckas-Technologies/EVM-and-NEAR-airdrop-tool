@@ -18,7 +18,8 @@ export const Hero: React.FC = () => {
     const { fetchMetamaskAddressExist } = useFetchMetamaskAddress();
     const { loading, transferToken } = useAirDropTransfer();
 
-    const [isEvmAddressExist, setEvmAddressExist] = useState(false);
+    const [vallidEvmAddress, setValidEvmAddress] = useState(false);
+    const [alreadyClaimed, setAlreadyClaimed] = useState(false);
     const [nearAddress, setNearAddress] = useState("");
 
     const [toastMessage, setToastMessage] = useState("");
@@ -27,12 +28,19 @@ export const Hero: React.FC = () => {
 
     useEffect(() => {
         if (address) {
-            const isExist = fetchMetamaskAddressExist(address);
-            if (isExist) {
-                setEvmAddressExist(isExist as unknown as boolean);
+            const fetchIsExist = async () => {
+                const response = await fetchMetamaskAddressExist(address);
+                setAlreadyClaimed(response.isClaimed);
+                setValidEvmAddress(response.success);
+                // if (response.success && !response.isClaimed) {
+                //     setValidEvmAddress(true);
+                // } else {
+                //     setValidEvmAddress(false);
+                // }
             }
+            fetchIsExist();
         }
-    }, [address])
+    }, [address, isConnected])
 
     useEffect(() => {
         if (toastMessage) {
@@ -45,14 +53,17 @@ export const Hero: React.FC = () => {
     }
 
     const handleClaimAirDrop = async () => {
-        if (!isEvmAddressExist) {
+        if (!vallidEvmAddress) {
+            return;
+        }
+        if (!address) {
             return;
         }
         if (!nearAddress) {
             return;
         }
         try {
-            const response = await transferToken({ address: nearAddress });
+            const response = await transferToken({ address: nearAddress, EVMaddress: address });
             if (response.success) {
                 setSuccess(true);
                 setTransactionHash(response.transactionHash);
@@ -75,26 +86,33 @@ export const Hero: React.FC = () => {
         // open({ view: 'Account' });
     }
 
+    console.log("Already : ", alreadyClaimed)
+    console.log("Valid : ", vallidEvmAddress)
+
     return (
         <div className="hero w-full h-auto flex items-center justify-center pt-[7rem] pb-5 px-3">
-            <div className="center-box flex flex-col justify-center items-center mt-[7rem]">
+            <div className="center-box flex flex-col justify-center items-center md:mt-[7rem] mt-[5rem]">
                 <h2 className="claim-text md:text-[47px] text-[47px] text-center leading-[4rem] px-3">Claim your AirDrop NOW!</h2>
                 <h3 className="text-2xl text-center font-bold py-6 my-2 px-3">Find out if you are eligible to participate.</h3>
-                <p className="text-xl text-center font-medium pb-3 px-3">Connect your metamask wallet to see if you are eligible to claim tokens. Available tokens<br />are only available to eligible participants at this stage.</p>
+                <p className="text-xl text-center font-medium pb-3 px-3">Connect your metamask wallet to see if you are eligible to claim tokens. Available tokens are only available to eligible participants at this stage.</p>
                 {!isConnected && !address ? <div className="connect-wallet-btn mt-6 rounded-sm cursor-pointer" onClick={handleConnectWallet}>
                     <h2 className="text-black text-lg font-bold px-20 py-4">Connect Wallet</h2>
-                </div> : <div>
-                    <h4 className="text-md font-semibold">Connected Address: <span className="address rounded-lg" onClick={handleDisconnect}>{address}</span></h4>
+                </div> : <div className="">
+                    <h4 className="md:text-md text-sm font-semibold text-center">Connected Address: <span className="address rounded-lg" onClick={handleDisconnect}>{address}</span></h4>
                 </div>
                 }
 
-                <div className="main-section w-full h-[5rem] flex justify-center items-center my-10">
-                    {isConnected && address && !loading && !transactionHash && <div className="submit-near-address flex justify-center items-center px-3 py-1 rounded-lg">
+                <div className="main-section w-full h-[5rem] flex flex-col justify-center items-center my-10">
+                    {isConnected && address && !loading && !transactionHash && vallidEvmAddress && !alreadyClaimed && <h2>You are eligible to claim this AirDrop!</h2>}
+                    {isConnected && address && !loading && !transactionHash && vallidEvmAddress && !alreadyClaimed &&  <div className="submit-near-address flex justify-center items-center px-3 py-1 rounded-lg">
                         <input type="text" placeholder="Enter your NEAR address..." value={nearAddress} onChange={(e) => setNearAddress(e.target.value)} className="w-[20rem] h-[3rem]" />
                         <div className="submit px-10 py-3 rounded-lg cursor-pointer" onClick={handleClaimAirDrop}>
-                            <h3 className="text-md font-semibold">Submit</h3>
+                            <h3 className="text-md font-semibold">Claim</h3>
                         </div>
                     </div>}
+
+                    {!vallidEvmAddress && !alreadyClaimed && address && <h2 className="text-red-500 font-semibold text-md">You are not eligible to claim this AirDrop!</h2>} 
+                    {address && vallidEvmAddress && alreadyClaimed && <h2 className="text-red-500 font-semibold text-md">Already you claimed this AirDrop!</h2>}
 
                     {loading && <div className="loading w-full flex items-center justify-center gap-4">
                         <div role="status">
@@ -107,7 +125,7 @@ export const Hero: React.FC = () => {
                         <h2 className="text-center text-lg font-semibold">Your AirDrop Claim is in processing...</h2>
                     </div>}
 
-                    {!loading && transactionHash && <div className="transactionHash w-full flex items-center justify-center">
+                    {!loading && transactionHash && address && <div className="transactionHash w-full flex items-center justify-center">
                         <Link href={`https://testnet.nearblocks.io/txns/${transactionHash}`} target="_blank" className="w-full flex flex-col items-center justify-center gap-2">
                             <h2 className="text-md font-semibold">Go Near Explorer:</h2>
                             <h2 className="text-md font-medium cursor-pointer">https://testnet.nearblocks.io/txns/{transactionHash}test</h2>

@@ -39,16 +39,19 @@ export const Header: React.FC = () => {
 
     return (
         <div className="w-full h-auto">
-            <div className="header fixed z-50 top-0 w-full h-[7rem] flex justify-between items-center xl:px-[12rem] lg:px-[10rem] md:px-[8rem] px-3 py-2">
+            <div className="header fixed z-50 top-0 w-full h-[7rem] flex gap-2 justify-center items-center xl:px-[12rem] lg:px-[10rem] md:px-[8rem] px-3 py-2">
                 <div className="logo rounded-full hidden md:block w-[5rem] h-[5rem]">
                     <img src="/images/teckas-logo.jpg" alt="myid" className="w-full h-full object-cover rounded-full" />
                 </div>
                 {/* Mobile logo */}
-                <div className="logo md:hidden rounded-full w-[4.2rem] h-[4.3rem]">
-                    <img src="/images/teckas-logo.jpg" alt="myid" className="w-full h-full object-cover rounded-full" />
+                <div className="w-[5rem] h-auto flex justify-center items-center">
+                    <div className="logo md:hidden rounded-full w-[4rem] h-[4rem]">
+                        <img src="/images/teckas-logo.jpg" alt="myid" className="w-full h-full object-cover rounded-full" />
+                    </div>
                 </div>
-                <div className="nav-links hidden md:flex flex items-center justify-center gap-[3rem]">
-                    {navs.map((nav, index) => (
+                <div className="nav-links">
+                    <h2 className="md:text-5xl text-3xl font-bold text-cente">AirDrop Claim Tool</h2>
+                    {/* {navs.map((nav, index) => (
                         <div key={index} className="flex items-center gap-3">
                             <h3 className={`text-black font-semibold cursor-pointer text-lg`}>
                                 {nav?.label}
@@ -59,18 +62,18 @@ export const Header: React.FC = () => {
                                 className="fill-current md:w-4 md:h-4 w-4 h-4 cursor-pointer"
                             />
                         </div>
-                    ))}
+                    ))} */}
                 </div>
-                <div className="right-header flex justify-center items-center md:gap-[1.5rem] gap-[1rem]">
-                    <div className="connect-btn flex items-center justify-center bg-white gap-[0.3rem] px-[1rem] py-[0.3rem] rounded-lg cursor-pointer">
+                <div className="right-header md:flex hidden flex justify-center items-center gap-[3rem]">
+                    {/* <div className="connect-btn flex items-center justify-center bg-white gap-[0.3rem] px-[1rem] py-[0.3rem] rounded-lg cursor-pointer">
                         <h2 className="text-black font-bold text-lg">Sign in</h2>
-                    </div>
-                    <div className="md:hidden menu">
-                        {/* <InlineSVG
+                    </div> */}
+                    {/* <div className="md:hidden menu">
+                        <InlineSVG
                             src="/icons/menu.svg"
                             className="w-7 h-7"
-                        /> */}
-                    </div>
+                        />
+                    </div> */}
                 </div>
             </div>
         </div>
