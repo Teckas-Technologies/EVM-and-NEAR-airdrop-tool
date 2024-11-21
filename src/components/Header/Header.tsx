@@ -39,7 +39,7 @@ export const Header: React.FC = () => {
 
     return (
         <div className="w-full h-auto">
-            <div className="header fixed z-50 top-0 w-full h-[7rem] flex gap-2 justify-center items-center xl:px-[12rem] lg:px-[10rem] md:px-[8rem] px-3 py-2">
+            <div className="header fixed z-50 top-0 w-full h-[7rem] flex md:gap-0 gap-2 md:justify-start justify-center items-center xl:px-[12rem] lg:px-[10rem] md:px-[8rem] px-3 py-2">
                 <div className="logo rounded-full hidden md:block w-[5rem] h-[5rem]">
                     <img src="/images/teckas-logo.jpg" alt="myid" className="w-full h-full object-cover rounded-full" />
                 </div>
@@ -64,7 +64,7 @@ export const Header: React.FC = () => {
                         </div>
                     ))} */}
                 </div>
-                <div className="right-header md:flex hidden flex justify-center items-center gap-[3rem]">
+                <div className="right-header md:flex hidden flex justify-center items-center md:gap-[5rem] gap-[3rem]">
                     {/* <div className="connect-btn flex items-center justify-center bg-white gap-[0.3rem] px-[1rem] py-[0.3rem] rounded-lg cursor-pointer">
                         <h2 className="text-black font-bold text-lg">Sign in</h2>
                     </div> */}

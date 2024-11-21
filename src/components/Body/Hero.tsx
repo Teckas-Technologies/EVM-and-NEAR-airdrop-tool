@@ -94,18 +94,18 @@ export const Hero: React.FC = () => {
             <div className="center-box flex flex-col justify-center items-center md:mt-[7rem] mt-[5rem]">
                 <h2 className="claim-text md:text-[47px] text-[47px] text-center leading-[4rem] px-3">Claim your AirDrop NOW!</h2>
                 <h3 className="text-2xl text-center font-bold py-6 my-2 px-3">Find out if you are eligible to participate.</h3>
-                <p className="text-xl text-center font-medium pb-3 px-3">Connect your metamask wallet to see if you are eligible to claim tokens. Available tokens are only available to eligible participants at this stage.</p>
+                <p className="text-xl text-center font-medium pb-5 px-3 md:px-[5rem] lg:px-[10rem] xl:px-[15rem] 2xl:px-[25rem]">Connect your metamask wallet to see if you are eligible to claim tokens. Available tokens are only available to eligible participants at this stage.</p>
                 {!isConnected && !address ? <div className="connect-wallet-btn mt-6 rounded-sm cursor-pointer" onClick={handleConnectWallet}>
                     <h2 className="text-black text-lg font-bold px-20 py-4">Connect Wallet</h2>
                 </div> : <div className="">
-                    <h4 className="md:text-md text-sm font-semibold text-center">Connected Address: <span className="address rounded-lg" onClick={handleDisconnect}>{address}</span></h4>
+                    <h4 className="md:text-md text-sm font-semibold text-center leading-[1.5rem]">Connected Address: <span className="address rounded-lg" onClick={handleDisconnect}>{address}</span></h4>
                 </div>
                 }
 
-                <div className="main-section w-full h-[5rem] flex flex-col justify-center items-center my-10">
+                <div className="main-section w-full h-[5rem] flex flex-col justify-center items-center my-8">
                     {isConnected && address && !loading && !transactionHash && vallidEvmAddress && !alreadyClaimed && <h2>You are eligible to claim this AirDrop!</h2>}
                     {isConnected && address && !loading && !transactionHash && vallidEvmAddress && !alreadyClaimed &&  <div className="submit-near-address flex justify-center items-center px-3 py-1 rounded-lg">
-                        <input type="text" placeholder="Enter your NEAR address..." value={nearAddress} onChange={(e) => setNearAddress(e.target.value)} className="w-[20rem] h-[3rem]" />
+                        <input type="text" placeholder="Enter your NEAR address..." value={nearAddress} onChange={(e) => setNearAddress(e.target.value)} className="md:w-[20rem] w-[14rem] h-[3rem]" />
                         <div className="submit px-10 py-3 rounded-lg cursor-pointer" onClick={handleClaimAirDrop}>
                             <h3 className="text-md font-semibold">Claim</h3>
                         </div>
@@ -114,7 +114,7 @@ export const Hero: React.FC = () => {
                     {!vallidEvmAddress && !alreadyClaimed && address && <h2 className="text-red-500 font-semibold text-md">You are not eligible to claim this AirDrop!</h2>} 
                     {address && vallidEvmAddress && alreadyClaimed && <h2 className="text-red-500 font-semibold text-md">Already you claimed this AirDrop!</h2>}
 
-                    {loading && <div className="loading w-full flex items-center justify-center gap-4">
+                    {loading && <div className="loading w-full flex items-center justify-center md:gap-4 gap-3">
                         <div role="status">
                             <svg aria-hidden="true" className="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-[#00dba9]" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor" />
@@ -122,13 +122,12 @@ export const Hero: React.FC = () => {
                             </svg>
                             <span className="sr-only">Loading...</span>
                         </div>
-                        <h2 className="text-center text-lg font-semibold">Your AirDrop Claim is in processing...</h2>
+                        <h2 className="text-center md:text-lg text-md font-semibold">Your AirDrop Claim is in processing...</h2>
                     </div>}
 
                     {!loading && transactionHash && address && <div className="transactionHash w-full flex items-center justify-center">
-                        <Link href={`https://testnet.nearblocks.io/txns/${transactionHash}`} target="_blank" className="w-full flex flex-col items-center justify-center gap-2">
-                            <h2 className="text-md font-semibold">Go Near Explorer:</h2>
-                            <h2 className="text-md font-medium cursor-pointer">https://testnet.nearblocks.io/txns/{transactionHash}test</h2>
+                        <Link href={`https://testnet.nearblocks.io/txns/${transactionHash}`} target="_blank" className="box w-auto flex flex-col items-center justify-center gap-2 py-3 px-5 rounded-lg cursor-pointer">
+                            <h2 className="text-md font-semibold"><span className="goto px-6 py-2 rounded-lg bg-red-500">Go to</span> Near Explorer</h2>
                         </Link>
                     </div>}
 
