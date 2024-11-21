@@ -5,6 +5,11 @@ interface ClaimedWalletAddress extends Document {
 }
 
 const ClaimedWalletAddressSchema = new mongoose.Schema({
+    EVMaddress: {
+        type: String,
+        required: true,
+        unique:true,
+      },
     walletAddress: {
     type: String,
     required: true,
