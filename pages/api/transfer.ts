@@ -9,11 +9,12 @@ export default async function handler(req:NextApiRequest,res:NextApiResponse) {
         await connectToDatabase(); 
         if(req.method=="POST"){
             try {
-                const {address} = req.body;
-                const existing = await ClaimedWalletAddress.findOne({walletAddress:address});
+                const {address,EVMaddress} = req.body;
+                const existing = await ClaimedWalletAddress.findOne({EVMaddress:EVMaddress});
                 if(!existing){
                    const transactionResult = await transferUSDT(address,"1");
                    const claimed = new ClaimedWalletAddress({
+                    EVMaddress:EVMaddress,
                     walletAddress:address
                    });
                    claimed.save();
