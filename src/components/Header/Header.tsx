@@ -36,18 +36,6 @@ export const Header: React.FC = () => {
         open({ view: 'Account' });
     }
 
-    const handleScrollToSection = (id: string) => {
-        const section = document.querySelector(id);
-        if (section) {
-            const extra = id === "#featured" || id === "#buy-myid" ? 100 : 20;
-            // Calculate the offset position, subtracting 6rem (96px assuming 1rem = 16px)
-            const offsetTop = section.getBoundingClientRect().top + window.scrollY - extra; // 96px = 6rem
-
-            // Scroll to the calculated position with smooth behavior
-            window.scrollTo({ top: offsetTop, behavior: 'smooth' });
-        }
-    };
-
 
     return (
         <div className="w-full h-auto">
@@ -62,7 +50,7 @@ export const Header: React.FC = () => {
                 <div className="nav-links hidden md:flex flex items-center justify-center gap-[3rem]">
                     {navs.map((nav, index) => (
                         <div key={index} className="flex items-center gap-3">
-                            <h3 className={`text-black font-semibold cursor-pointer text-lg`} onClick={() => handleScrollToSection(nav.path)}>
+                            <h3 className={`text-black font-semibold cursor-pointer text-lg`}>
                                 {nav?.label}
                             </h3>
                             <InlineSVG
@@ -77,22 +65,6 @@ export const Header: React.FC = () => {
                     <div className="connect-btn flex items-center justify-center bg-white gap-[0.3rem] px-[1rem] py-[0.3rem] rounded-lg cursor-pointer">
                         <h2 className="text-black font-bold text-lg">Sign in</h2>
                     </div>
-                    {!isConnected && !address ? <div className="connect-btn flex items-center justify-center bg-white gap-[0.3rem] px-[1rem] py-[0.3rem] rounded-lg cursor-pointer">
-                        <h2 className="text-black font-bold text-lg">Sign in</h2>
-                    </div> : <>
-                        <h2 className="balance-text hidden md:block font-medium text-lg">Balance</h2>
-                        <div className="balance md:px-[1.5rem] md:py-[0.5rem] px-[1.3rem] py-[0.3rem] rounded-[4rem] flex items-center justify-center md:gap-[1rem] gap-[0.5rem] cursor-pointer" onClick={handleDisconnect}>
-                            <div className="value flex justify-center items-center gap-2">
-                                <h3 className="asset font-bold md:text-xl text-md">MYID</h3>
-                            </div>
-                            <div className="myid-icon-round ">
-                                {/* <InlineSVG
-                                    src="/icons/myid.svg"
-                                    className="md:w-[2.6rem] md:h-[2.7rem] w-[2.4rem] h-[2.5rem] "
-                                /> */}
-                            </div>
-                        </div>
-                    </>}
                     <div className="md:hidden menu">
                         {/* <InlineSVG
                             src="/icons/menu.svg"
