@@ -1,8 +1,10 @@
 "use client";
 
-import { useAccount } from "wagmi";
+import { useAccount, useDisconnect } from "wagmi";
 import { useAppKit, useAppKitAccount } from "@reown/appkit/react";
 import "./Hero.css"
+import { useAirDropTransfer, useFetchMetamaskAddress } from "@/hooks/useAirDrop";
+import { useEffect, useState } from "react";
 
 export const Hero: React.FC = () => {
 
@@ -11,14 +13,43 @@ export const Hero: React.FC = () => {
     const { open } = useAppKit();
     // const { disconnect } = useDisconnect();
 
+    const { fetchMetamaskAddressExist } = useFetchMetamaskAddress();
+    const { transferToken } = useAirDropTransfer();
+
+    const [isEvmAddressExist, setEvmAddressExist] = useState(false);
+    const [nearAddress, setNearAddress] = useState("");
+
+    useEffect(() => {
+        if (address) {
+            const isExist = fetchMetamaskAddressExist(address);
+            setEvmAddressExist(isExist as unknown as boolean);
+        }
+    }, [address])
+
     const handleConnectWallet = () => {
         open({ view: 'Connect' });
     }
 
-    // const handleDisconnect = () => {
-    //     // disconnect();
-    //     open({ view: 'Account' });
-    // }
+    const handleClaimAirDrop = async () => {
+        if (!isEvmAddressExist) {
+            return;
+        }
+        if(!nearAddress) {
+            return;
+        }
+        try {
+            await transferToken({ address: nearAddress });
+        } catch (err) {
+            console.log("Error: ", err)
+        }
+    }
+
+    const handleDisconnect = () => {
+        useDisconnect();
+        // open({ view: 'Account' });
+    }
+
+    // wallet address claimed
 
 
     return (
@@ -30,13 +61,14 @@ export const Hero: React.FC = () => {
                 {!isConnected && !address ? <div className="connect-wallet-btn mt-6 rounded-sm cursor-pointer" onClick={handleConnectWallet}>
                     <h2 className="text-black text-lg font-bold px-20 py-4">Connect Wallet</h2>
                 </div> : <div>
-                    <h4 className="text-md font-semibold">Connected Address: <span className="address rounded-lg">{address}</span></h4>
+                    <h4>{nearAddress}</h4>
+                    <h4 className="text-md font-semibold">Connected Address: <span className="address rounded-lg" onClick={handleDisconnect}>{address}</span></h4>
                 </div>
                 }
 
                 {isConnected && address && <div className="submit-near-address flex justify-center items-center my-10 px-3 py-1 rounded-lg">
-                    <input type="text" placeholder="Enter your NEAR address..." className="w-[20rem] h-[3rem]" />
-                    <div className="submit px-10 py-3 rounded-lg cursor-pointer">
+                    <input type="text" placeholder="Enter your NEAR address..." value={nearAddress} onChange={(e) => setNearAddress(e.target.value)} className="w-[20rem] h-[3rem]" />
+                    <div className="submit px-10 py-3 rounded-lg cursor-pointer" onClick={handleClaimAirDrop}>
                         <h3 className="text-md font-semibold">Submit</h3>
                     </div>
                 </div>}

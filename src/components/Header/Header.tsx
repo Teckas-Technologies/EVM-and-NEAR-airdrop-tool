@@ -86,18 +86,18 @@ export const Header: React.FC = () => {
                                 <h3 className="asset font-bold md:text-xl text-md">MYID</h3>
                             </div>
                             <div className="myid-icon-round ">
-                                <InlineSVG
+                                {/* <InlineSVG
                                     src="/icons/myid.svg"
                                     className="md:w-[2.6rem] md:h-[2.7rem] w-[2.4rem] h-[2.5rem] "
-                                />
+                                /> */}
                             </div>
                         </div>
                     </>}
                     <div className="md:hidden menu">
-                        <InlineSVG
+                        {/* <InlineSVG
                             src="/icons/menu.svg"
                             className="w-7 h-7"
-                        />
+                        /> */}
                     </div>
                 </div>
             </div>
