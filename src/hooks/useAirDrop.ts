@@ -5,7 +5,7 @@ export const useAirDropTransfer = () => {
     const [error, setError] = useState<string | null>(null);
     const [success, setSuccess] = useState<boolean | null>(null);
 
-    const transferToken = async (data: { address: string }): Promise<void> => {
+    const transferToken = async (data: { address: string }) => {
         setLoading(true);
         setError(null);
         setSuccess(null);
@@ -27,14 +27,19 @@ export const useAirDropTransfer = () => {
             if (responseText) {
                 const responseData = JSON.parse(responseText);
                 console.log("Response Data >> ", responseData);
+                const successValue = responseData?.success;
+                const transactionHash = responseData?.transactionResult?.transaction?.hash
                 setSuccess(true);
+                return { success: successValue, transactionHash: transactionHash }
             } else {
                 console.warn('Empty response from server');
                 setSuccess(false);
+                return { success: false, transactionHash: "" };
             }
         } catch (error) {
             console.error('Error in transfer token:', error);
             setError('Failed to token transfer!');
+            return { success: false, transactionHash: "" };
         } finally {
             setLoading(false);
         }
@@ -56,7 +61,7 @@ export const useFetchMetamaskAddress = () => {
             if (!response.ok) throw new Error('Network response was not ok');
             const data = await response.json();
             console.log("Response Data >> ", data);
-            return data.available;
+            return data?.success;
         } catch (err) {
             setError("Error fetching metamask address");
             return false;
