@@ -6,7 +6,7 @@ import ClaimedWalletAddress from "../../models/ClaimedWallets";
 
 export default async function handler(req:NextApiRequest,res:NextApiResponse) {
     try {
-        await connectToDatabase();
+        await connectToDatabase(); 
         if(req.method=="POST"){
             try {
                 const {address} = req.body;
