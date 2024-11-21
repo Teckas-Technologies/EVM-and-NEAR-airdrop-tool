@@ -2,10 +2,10 @@
 // "use client";
 
 // import { createContext, useContext, useEffect, useState, ReactNode } from "react";
-// import { ethers, providers } from "ethers";
+// import { ethers } from "ethers";
 // import { MYIDPresaleABI } from "@/constants/ABI";
 // import { useAccount } from "wagmi";
-// import { constant } from "@/constants/constants";
+// import { constant } from "@/utils/constants";
 // import { EthereumProvider } from "@walletconnect/ethereum-provider";
 
 // declare global {
@@ -32,39 +32,30 @@
 //     const { isConnected, address } = useAccount();
 
 //     // Function to fetch and set balances
-//     const getBalances = async (account: string) => {
-//         if (!contract) return;
-//         try {
-//             const [, , tokenBalance] = await contract.balancesOf(account);
-//             const balance = ethers.utils.formatUnits(tokenBalance, 18);
-//             setMyidBalance(Number(balance).toFixed(2));
-//         } catch (error) {
-//             console.error("Error fetching balances:", error);
-//         }
-//     };
+//     // const getBalances = async (account: string) => {
+//     //     if (!contract) return;
+//     //     try {
+//     //         const [, , tokenBalance] = await contract.balancesOf(account);
+//     //         const balance = ethers.utils.formatUnits(tokenBalance, 18);
+//     //         setMyidBalance(Number(balance).toFixed(2));
+//     //     } catch (error) {
+//     //         console.error("Error fetching balances:", error);
+//     //     }
+//     // };
 
 //     // Refetch balance function
-//     const refetchBalance = async (account: string) => {
-//         if (account) {
-//             await getBalances(account);
-//         }
-//     };
-
-//     useEffect(() => {
-//         if (isConnected && address) {
-//             getBalances(address);
-//         }
-//     }, [isConnected, address, contract]);
+//     // const refetchBalance = async (account: string) => {
+//     //     if (account) {
+//     //         await getBalances(account);
+//     //     }
+//     // };
 
 //     // useEffect(() => {
-//     //     if (isConnected && ethers && address && typeof window !== "undefined" && window.ethereum) {
-//     //         const provider = new ethers.providers.Web3Provider(window.ethereum);
-//     //         const signer = provider.getSigner();
-//     //         const contractInstance = new ethers.Contract(MYIDPresaleAddress, MYIDPresaleABI, signer);
-//     //         setProvider(provider);
-//     //         setContract(contractInstance);
+//     //     if (isConnected && address) {
+//     //         getBalances(address);
 //     //     }
-//     // }, [isConnected, address]);
+//     // }, [isConnected, address, contract]);
+
 
 //     useEffect(() => {
 //         const initializeContract = async () => {
