@@ -8,7 +8,7 @@ export default async function handler(req:NextApiRequest,res:NextApiResponse) {
         if(req.method=="GET"){
             try {
                 const address = req.query.address;
-                const existing = await WalletAddress.findOne({walletAddress:address});
+                const existing = await WalletAddress.findOne({EVMaddress:address});
                 if(existing){
                     res.status(200).json({success:true,data:existing});
                 }else{

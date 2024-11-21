@@ -1,13 +1,18 @@
 import mongoose, { Document, Model } from 'mongoose';
 
 interface WalletAddress extends Document {
-    walletAddress:string;
+    EVMaddress:string;
 }
 
 const WalletAddressSchema = new mongoose.Schema({
-    walletAddress: {
+    EVMaddress: {
     type: String,
     required: true,
+  },
+  isClaimed: {
+    type: String,
+    required: false,
+    default:false
   },
 }, { timestamps: true });
 

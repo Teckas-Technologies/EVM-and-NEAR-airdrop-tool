@@ -17,7 +17,12 @@ export default async function handler(req:NextApiRequest,res:NextApiResponse) {
                     EVMaddress:EVMaddress,
                     walletAddress:address
                    });
-                   claimed.save();
+                   await claimed.save();
+                   const wallet = await WalletAddress.findOneAndUpdate(
+                    { EVMaddress: EVMaddress },
+                    { $set: { isClaimed: true } },
+                    { new: true } 
+                  );
                    res.status(200).json({success:true,transactionResult});
                 }else{
                     res.status(200).json({success:false,message:"wallet address claimed"});
