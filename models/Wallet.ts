@@ -2,6 +2,7 @@ import mongoose, { Document, Model } from 'mongoose';
 
 interface WalletAddress extends Document {
     EVMaddress:string;
+    isClaimed:boolean;
 }
 
 const WalletAddressSchema = new mongoose.Schema({
@@ -10,7 +11,7 @@ const WalletAddressSchema = new mongoose.Schema({
     required: true,
   },
   isClaimed: {
-    type: String,
+    type: Boolean,
     required: false,
     default:false
   },
